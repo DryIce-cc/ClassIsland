@@ -64,8 +64,7 @@ body:
       options:
         - 最新测试版
         - 最新测试版（精简版本）
-        - 还未发布的版本
-        - 其它
+        - 其它（请在重现步骤中说明）
       default: 0
     
   - type: markdown
