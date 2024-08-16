@@ -6,20 +6,19 @@ body:
   - type: markdown
     attributes:
       value: |
-        感谢您进行 Bug 反馈。
-        请在上面的文本框⬆️起一个能够清晰描述您的问题的标题，便于开发者解决您的问题。
+        感谢您进行 Bug 反馈。请在上面的文本框⬆️起一个能够清晰描述您的问题的标题，便于开发者解决您的问题。
         
-        > 重要：如果您想要提出 **多个问题**，请为每一个问题开一个单独的 issue。
+        > 重要：如果要提出 **多个问题**，请为每一个问题开一个单独的 issue。
         
         如果您不知道如何有效、精准地表述，我们建议您先阅读《提问的智慧》（[链接](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)）。
         
         ## 在开始之前，请先检查：
         
         - [x] 我已经将本应用更新到最新测试版 ![最新的版本号](https://img.shields.io/github/v/release/ClassIsland/ClassIsland?include_prereleases&style=flat-square&label=)，确认我要反馈的问题还没有修复
-        - [x] 我已经在 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3ABug) 中找过我要提出的问题，没有找到相同的问题的（如已有类似的问题，请直接回复该 issue 进行补充）
-        - [x] 我确认我要反馈的问题尚未在 [最新提交](https://github.com/ClassIsland/ClassIsland/commits/dev/) 中修复。
-        - [x] 我已知晓并同意，此处仅用于汇报程序中存在的问题。若这个 Issue 是关于其他非程序本身问题，则我的 Issue 可能会被无条件自动关闭或/并锁定。（这些问题应当在 Discussion 板块提出。）
-        - [x] 我使用的系统版本为 Windows 10 / 11（开发者可能[不会受理 Windows 7 系统相关问题](https://docs.classisland.tech/zh-cn/latest/app/setup/#检查系统需求)）
+        - [x] 我已经在 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3ABug) 中找过我要提出的问题，没有找到相同的问题（如已有类似的问题，请直接回复该 issue 进行补充）
+        - [x] 我确认我要反馈的问题尚未在 [最新提交](https://github.com/ClassIsland/ClassIsland/commits/dev/) 中修复
+        - [x] 我已知晓并同意，此处仅用于汇报程序中存在的问题（关于其他非程序本身问题应当在 Discussion 板块提出）
+        - [x] 我使用的系统版本为 Windows 10 / 11（开发者[不会受理 Windows 7 系统相关问题](https://docs.classisland.tech/zh-cn/latest/app/setup/#检查系统需求)）
   - type: markdown
     attributes: 
       value: |
@@ -65,7 +64,8 @@ body:
       options:
         - 最新测试版
         - 最新测试版（精简版本）
-        - 我无法更新 ClassIsland 至最新测试版
+        - 还未发布的版本
+        - 其它
       default: 0
     
   - type: markdown
