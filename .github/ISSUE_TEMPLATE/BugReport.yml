@@ -8,7 +8,7 @@ body:
       value: |
         感谢您进行 Bug 反馈。请在上面的文本框⬆️起一个能够清晰描述您的问题的标题，便于开发者解决您的问题。
         
-        > 重要：如果要提出 **多个 Bug**，请为每一个 Bug 开一个单独的 issue。
+        > 重要：如果要提出**多个 Bug**，请为每一个 Bug 开一个单独的 issue。
         
         > 如果您不知道如何有效、精准地表述，我们建议您先阅读《提问的智慧》（[链接](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)）。
         
