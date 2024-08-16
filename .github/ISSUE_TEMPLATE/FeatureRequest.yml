@@ -1,26 +1,30 @@
 name: 功能请求
 description: 提出一项新的功能。
+title: 在这里输入你的标题
 labels: ["新功能"]
 body:
   - type: markdown
     attributes:
       value: |
         感谢您贡献您的想法，请根据以下指引完成您的功能请求。
-
-        ### 1. 填写标题
-        
+  - type: markdown
+    attributes:
+      label: 1.填写标题
+      value: |
         👉️ 在上面的文本框⬆️起一个能够清晰概括此功能的**标题**，便于开发者了解您的想法。
-        
-        ### 2. 检查清单
-        
-        - 我已经将本应用更新到最新测试版 ![最新的版本号](https://img.shields.io/github/v/release/ClassIsland/ClassIsland?include_prereleases&label=)，确认我想要的功能没有实现
-        - 我确认 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3A新功能) 中没有相同或类似的功能（如有已类似的功能，请回复该 issue 进行补充）
-        - 我阅读过 [ClassIsland 文档](https://docs.classisland.tech/zh-cn/latest/app/)，但我想要的功能没有实现
-        - 我已确认我的功能尚未在 [最新的提交中](https://github.com/ClassIsland/ClassIsland/commits/dev/) 实现
-        
-        ### 3. 填写功能请求
-        
-        > 重要：如果您想要提出**多项功能**，请为每一个功能开一个单独的 issue
+  - type: markdown
+    attributes:
+      label: 2. 检查清单
+      value: |
+        - 我已经将本应用更新到最新测试版 ![最新的版本号](https://img.shields.io/github/v/release/ClassIsland/ClassIsland?include_prereleases&style=flat-square&label=)，确认我想要的功能没有实现
+        - 我确认 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3A新功能) 中没有相同或类似的功能请求（如已有类似的请求，请回复该 issue 进行补充）
+        - 我阅读了 [ClassIsland 文档](https://docs.classisland.tech/zh-cn/latest/app/)，确认我想要的功能没有实现
+        - 我已确认我的功能尚未在 [最新提交](https://github.com/ClassIsland/ClassIsland/commits/dev/) 中实现
+  - type: markdown
+    attributes:
+      label: 3. 填写功能请求
+      value: |
+        > 重要：如果您想要提出 **多项功能**，请为每一个功能开一个单独的 issue
   - type: textarea
     id: back
     attributes:
@@ -37,7 +41,6 @@ body:
       required: true
   - type: markdown
     attributes:
+      label: 最后一步：回顾您的表述
       value: |
-        ### 最后一步：回顾您的表述
-        
         👉️ 我认为上述的描述已经足够清晰，以允许开发人员理解您提出的功能
