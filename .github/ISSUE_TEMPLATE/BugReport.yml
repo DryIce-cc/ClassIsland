@@ -59,7 +59,7 @@ body:
       label: 应用版本
       description: 您当前使用的 ClassIsland 版本。
       options:
-        - **最新的预览版**
+        - 最新的预览版
         - 最新的稳定版
         - 最新的预览版（精简版本）
         - 最新的稳定版（精简版本）
