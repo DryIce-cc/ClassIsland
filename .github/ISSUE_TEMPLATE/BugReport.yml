@@ -12,13 +12,13 @@ body:
         
         如果您不知道如何有效、精准地表述，我们建议您先阅读《提问的智慧》（[链接](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)）。
         
-        ## 在开始之前，请先检查：
+        ### 在开始之前，请先检查：
         
         - [x] 我已经将本应用更新到最新测试版 ![最新的版本号](https://img.shields.io/github/v/release/ClassIsland/ClassIsland?include_prereleases&style=flat-square&label=)，确认我要反馈的问题还没有修复
         - [x] 我已经在 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3ABug) 中找过我要提出的问题，没有找到相同的问题（如已有类似的问题，请直接回复该 issue 进行补充）
         - [x] 我确认我要反馈的问题尚未在 [最新提交](https://github.com/ClassIsland/ClassIsland/commits/dev/) 中修复
         - [x] 我已知晓并同意，此处仅用于汇报程序中存在的问题（关于其他非程序本身问题应当在 Discussion 板块提出）
-        - [x] 我使用的系统版本为 Windows 10 / 11（开发者[不会受理 Windows 7 系统相关问题](https://docs.classisland.tech/zh-cn/latest/app/setup/#检查系统需求)）
+        - [x] 我使用的系统版本为 Windows 10 / 11（开发者不会受理 Windows 7 系统相关问题）
   - type: markdown
     attributes: 
       value: |
