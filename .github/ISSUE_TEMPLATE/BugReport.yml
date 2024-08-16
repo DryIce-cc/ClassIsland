@@ -32,7 +32,7 @@ body:
       description: |
         我们需要执行哪些操作才能让 bug 出现？
         简洁清晰的重现步骤能够帮助我们更迅速地定位问题所在。
-        如果此 Bug 可能与当前系统相关，请提供 Windows 操作系统版本，可以运行 `winver.exe` 查看。
+        如果此 Bug 可能与操作系统相关，请提供 Windows 操作系统版本，可以运行 `winver.exe` 查看。
       placeholder: |
         1. 首先……
         2. 然后……
