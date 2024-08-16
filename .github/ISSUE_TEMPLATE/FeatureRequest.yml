@@ -5,16 +5,16 @@ body:
   - type: markdown
     attributes:
       value: |
-        1. 感谢您贡献您的想法
+        ## 1. 感谢您贡献您的想法
         
         👉️ 在上面的文本框⬆️起一个能够**清晰概括此功能的标题**，便于开发者了解您的想法。
 
-        2. 检查您的功能请求：
+        ## 2. 检查您的功能请求：
         
         - 如果您想要提出**多项功能**，请为每一个功能开一个单独的issue。
         - 如果您提出的是一份**设计想法**而不是一个单独的**功能**，请在[Discussions](https://github.com/ClassIsland/ClassIsland/discussions)页面发表。
         
-        3. 确认此功能请求没有重复：
+        ## 3. 确认此功能请求没有重复：
         
         - 我已经将本应用更新到最新测试版 ![最新的测试版版本号](https://img.shields.io/github/v/release/ClassIsland/ClassIsland?include_prereleases&style=flat-square&label=)，确认我想要的功能没有实现。
         - 我确认 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3A新功能) 中没有相同或类似的功能（如有类似的功能，请回复该 issue 进行补充）
@@ -37,5 +37,5 @@ body:
   - type: markdown
     attributes:
       value: |
-        最后一步：回顾您的表述。
+        ## 最后一步：回顾您的表述。
         👉️ 我认为上述的描述已经足够清晰，以允许开发人员理解您提出的功能。
