@@ -39,5 +39,7 @@ body:
   - type: markdown
     attributes:
       value: |
+        <div align="right">
         ### 最后一步：回顾您的表述。
         👉️ 我认为上述的描述已经足够清晰，以允许开发人员理解您提出的功能。
+        </div>
