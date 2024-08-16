@@ -22,7 +22,7 @@ body:
   - type: markdown
     attributes: 
       value: |
-        ## Bug 信息
+        ### Bug 信息
 
         描述您遇到的 Bug。您可以附上截图、录屏、堆栈跟踪、日志等材料，便于开发者追踪问题。
   - type: textarea
