@@ -1,21 +1,25 @@
 name: Bug 反馈
 description: 在使用 ClassIsland 的过程中遇到了 Bug。
+title: （在这里输入你的标题）
 labels: ["Bug"]
 body:
   - type: markdown
     attributes:
       value: |
         感谢您进行 Bug 反馈。
-        反馈时请在上面的文本框⬆️起一个能够清晰描述您的问题的标题，便于开发者解决您的问题。
+        请在上面的文本框⬆️起一个能够清晰描述您的问题的标题，便于开发者解决您的问题。
+        
+        > 重要：如果您想要提出 **多个问题**，请为每一个问题开一个单独的 issue。
         
         如果您不知道如何有效、精准地表述，我们建议您先阅读《提问的智慧》（[链接](https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md)）。
         
         ## 在开始之前，请先检查：
         
-        - 我已经在 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3ABug) 中找过我要提出的问题，没有找到相同问题的 Issue。
-        - 我已确认我要反馈的问题还没有在 [dev](https://github.com/ClassIsland/ClassIsland/commits/dev/) 分支上修复。
-        - 我已知晓并同意，此处仅用于汇报程序中存在的问题。若这个 Issue 是关于其他非程序本身问题，则我的 Issue 可能会被无条件自动关闭或/并锁定。（这些问题应当在 Discussion 板块提出。）
-        - 我使用的系统版本为 Windows 10 / 11（开发者可能[不会受理 Windows 7 系统相关问题](https://docs.classisland.tech/zh-cn/latest/app/setup/#检查系统需求)）
+        - [x] 我已经将本应用更新到最新测试版 ![最新的版本号](https://img.shields.io/github/v/release/ClassIsland/ClassIsland?include_prereleases&style=flat-square&label=)，确认我要反馈的问题还没有修复
+        - [x] 我已经在 [Issues](https://github.com/ClassIsland/ClassIsland/issues?q=label%3ABug) 中找过我要提出的问题，没有找到相同的问题的（如已有类似的问题，请直接回复该 issue 进行补充）
+        - [x] 我确认我要反馈的问题尚未在 [最新提交](https://github.com/ClassIsland/ClassIsland/commits/dev/) 中修复。
+        - [x] 我已知晓并同意，此处仅用于汇报程序中存在的问题。若这个 Issue 是关于其他非程序本身问题，则我的 Issue 可能会被无条件自动关闭或/并锁定。（这些问题应当在 Discussion 板块提出。）
+        - [x] 我使用的系统版本为 Windows 10 / 11（开发者可能[不会受理 Windows 7 系统相关问题](https://docs.classisland.tech/zh-cn/latest/app/setup/#检查系统需求)）
   - type: markdown
     attributes: 
       value: |
@@ -59,15 +63,14 @@ body:
       label: 应用版本
       description: 您当前使用的 ClassIsland 版本。
       options:
-        - 最新的预览版
-        - 最新的稳定版
-        - 最新的预览版（精简版本）
-        - 最新的稳定版（精简版本）
+        - 最新测试版
+        - 最新测试版（精简版本）
+        - 我无法更新 ClassIsland 至最新测试版
       default: 0
     
   - type: markdown
     attributes:
       value: |
-        ## 最后一步
-        回顾您的 issue：
-        - 我认为上述的描述已经足以详细，以允许开发人员能复现该问题。
+        ### 最后一步：回顾您的表述
+        
+        - [x] 我认为上述的描述已经足够详细，以允许开发人员能复现该问题。
