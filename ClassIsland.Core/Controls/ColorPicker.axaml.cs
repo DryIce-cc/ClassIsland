@@ -55,10 +55,10 @@ public partial class ColorPicker : UserControl, INotifyPropertyChanged
 
     private void UIElement_OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Enter)
-        {
-            Picker.Focus();
-        }
+        // if (e.Key == Key.Enter)
+        // {
+        //     Picker.Focus();
+        // }
     }
 }
 
