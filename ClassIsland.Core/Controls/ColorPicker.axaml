@@ -18,8 +18,10 @@
             <Button.Flyout>
                 <Flyout>
                     <Grid Height="300" Width="400" RowDefinitions="*,Auto">
+<!--
                         <ColorPicker Grid.Row="0" x:Name="Picker"
                                      Color="{Binding Color, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type controls1:ColorPicker}}}" />
+-->
                         <Grid Grid.Row="1" Margin="12 0 12 12">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
