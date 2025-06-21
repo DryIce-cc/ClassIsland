@@ -16,6 +16,7 @@
     <Folder Include="Helpers\" />
     <Folder Include="Attributes\" />
     <Folder Include="Services\" />
+    <Folder Include="JsonConverters\" />
   </ItemGroup>
 
   <ItemGroup>

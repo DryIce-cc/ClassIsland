@@ -14,23 +14,27 @@
         <TextBlock Text="课表只有在规则全部满足时才会生效。" TextWrapping="Wrap" />
 
         <TextBlock Text="当今天是：" Margin="0 8 0 0" />
-        <ci:NonScrollingListBox
-            Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineListBox}"
-            SelectedIndex="{Binding WeekDay}">
-            <ListBoxItem Content="周日" />
-            <ListBoxItem Content="周一" />
-            <ListBoxItem Content="周二" />
-            <ListBoxItem Content="周三" />
-            <ListBoxItem Content="周四" />
-            <ListBoxItem Content="周五" />
-            <ListBoxItem Content="周六" />
+        <ci:NonScrollingListBox x:Name="WeekDayListBox"
+            Style="{StaticResource  MaterialDesignFilterChipPrimaryOutlineListBox}"
+            SelectionMode="Extended">
+            <ListBoxItem Content="周日" Tag="0" />
+            <ListBoxItem Content="周一" Tag="1" />
+            <ListBoxItem Content="周二" Tag="2" />
+            <ListBoxItem Content="周三" Tag="3" />
+            <ListBoxItem Content="周四" Tag="4" />
+            <ListBoxItem Content="周五" Tag="5" />
+            <ListBoxItem Content="周六" Tag="6" />
         </ci:NonScrollingListBox>
 
         <TextBlock Text="当本周是：" Margin="0 8 0 0" />
-        <ci:NonScrollingListBox x:Name="DivListBox"
-            Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineListBox}"/>
+        <ci:NonScrollingListBox x:Name="WeekCountDivsListBox"
+            Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+            SelectionMode="Multiple"/>
 
         <StackPanel>
+            <TextBlock Text="每轮周数：" Margin="0 8 0 0" />
+            <ci:NonScrollingListBox x:Name="WeekCountDivTotalListBox"
+                Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineListBox}"/>
             <StackPanel.Style>
                 <Style TargetType="StackPanel">
                     <Style.Triggers>
@@ -44,9 +48,6 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Style>
-            <TextBlock Text="每轮周数：" Margin="0 8 0 0" />
-            <ci:NonScrollingListBox x:Name="DivTotalListBox"
-                Style="{StaticResource MaterialDesignChoiceChipPrimaryOutlineListBox}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

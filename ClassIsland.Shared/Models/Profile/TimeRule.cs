@@ -1,60 +1,55 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-
+﻿using System.Text.Json.Serialization;
+using CommunityToolkit.Mvvm.ComponentModel;
+using ClassIsland.Shared.JsonConverters;
 namespace ClassIsland.Shared.Models.Profile;
 
 /// <summary>
 /// 代表一个课表<see cref="ClassPlan"/>触发规则。
 /// </summary>
-public class TimeRule : ObservableRecipient
+/// <remarks>
+/// 受到 <see cref="TimeRuleJsonConverter"/> 作用。
+/// </remarks>
+[JsonConverter(typeof(TimeRuleJsonConverter))]
+public partial class TimeRule : ObservableRecipient
 {
-    private int _weekDay = new();
-    private int _weekCountDiv = 0;
-    private int _weekCountDivTotal = 2;
+    /// <summary>
+    /// 在一周中的哪些天启用这个课表。
+    /// </summary>
+    /// <remarks>
+    /// 受到 <see cref="TimeRuleJsonConverter"/> 作用。
+    /// </remarks>
+    [ObservableProperty] List<int> _weekDays = [0];
 
     /// <summary>
-    /// 在一周中的哪一天启用这个课表
+    /// 在多周轮换中的哪些周启用这个课表。
     /// </summary>
-    public int WeekDay
-    {
-        get => _weekDay;
-        set
-        {
-            if (Equals(value, _weekDay)) return;
-            _weekDay = value;
-            OnPropertyChanged();
-        }
-    }
-
-    /// <summary>
-    /// 在多周轮换中的哪一周启用这个课表
-    /// </summary>
-    /// <value>
-    /// 0 - 不轮换<br/>
-    /// y - 第 y 周
-    /// </value>
-    public int WeekCountDiv
-    {
-        get => _weekCountDiv;
-        set
-        {
-            if (value == _weekCountDiv) return;
-            // _weekCountDiv = Math.Clamp(value, 0, WeekCountDivTotal);
-            _weekCountDiv = value > WeekCountDivTotal ? 0 : value;
-            OnPropertyChanged();
-        }
-    }
+    /// <remarks>
+    /// 受到 <see cref="TimeRuleJsonConverter"/> 作用。
+    /// </remarks>
+    [ObservableProperty] List<int> _weekCountDivs = [0];
 
     /// <summary>
     /// 多周轮换总周数
     /// </summary>
-    public int WeekCountDivTotal
+    [ObservableProperty] int _weekCountDivTotal = 2;
+
+    /// <summary>
+    /// 兼容旧版 WeekDay { get; set; }
+    /// </summary>
+    [JsonIgnore, Obsolete($"{nameof(WeekDay)} 已过时：迁移至支持多天的 {nameof(WeekDays)}。")]
+    public int WeekDay
     {
-        get => _weekCountDivTotal;
-        set
-        {
-            if (value == _weekCountDivTotal) return;
-            _weekCountDivTotal = value < 2 ? 2 : value;
-            OnPropertyChanged();
-        }
+        get => WeekDays.Count > 0 ? WeekDays[0] : 0;
+        set => WeekDays = [value];
+    }
+
+    /// <summary>
+    /// 兼容旧版 WeekCountDiv { get; set; }
+    /// </summary>
+    [JsonIgnore, Obsolete($"{nameof(WeekCountDiv)} 已过时：迁移至支持多周的 {nameof(WeekCountDivs)}。")]
+    public int WeekCountDiv
+    {
+        get => WeekCountDivs.Count > 0 ? WeekCountDivs[0] : 0;
+        set => WeekCountDivs = [value];
     }
 }
