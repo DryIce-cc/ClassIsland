@@ -70,18 +70,13 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
     private bool _isMainWindowVisible = true;
     private bool _isWelcomeWindowShowed = false;
     private bool _isReportingEnabled = true;
-    private Dictionary<string, string> _releaseChannels = new()
-    {
-    };
 
     private string _selectedChannel = "https://install.appcenter.ms/api/v0.1/apps/hellowrc/classisland/distribution_groups/public";
     private DateTime _lastCheckUpdateTime = DateTime.MinValue;
-    private AppCenterReleaseInfo _lastCheckUpdateInfoCache = new();
     private UpdateStatus _lastUpdateStatus = UpdateStatus.UpToDate;
     private int _updateMode = 3;
     private bool _autoInstallUpdateNextStartup = true;
     private bool _isDebugOptionsEnabled = false;
-    private Color _selectedPlatte = Colors.DodgerBlue;
     private int _selectedPlatteIndex = 0;
     private ObservableCollection<Color> _wallpaperColorPlatte = new(Enumerable.Repeat(Colors.DodgerBlue, 5));
     private int _colorSource = 1;
@@ -124,10 +119,8 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
     private Dictionary<string, SpeedTestResult> _speedTestResults = new();
     private bool _isAutoSelectUpgradeMirror = true;
     private DateTime _lastSpeedTest = DateTime.MinValue;
-    private UpdateSourceKind _lastUpdateSourceKind = UpdateSourceKind.None;
     private string _updateReleaseInfo = "";
     private Version _updateVersion = new Version();
-    private Release _lastCheckUpdateInfoCacheGitHub = new Release();
     private string _updateDownloadUrl = "";
     private DateTime _firstLaunchTime = DateTime.Now;
     private long _diagnosticStartupCount = 0;
@@ -223,12 +216,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
     private ObservableCollection<string> _trustedProfileIds = [];
     private bool _isNonExactCountdownEnabled = false;
     private bool _showDetailedStatusOnSplash = false;
-
-
-    public void NotifyPropertyChanged(string propertyName)
-    {
-        OnPropertyChanged(propertyName);
-    }
 
     public string SelectedProfile
     {
@@ -354,28 +341,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
         }
     }
 
-    public int ClassPrepareNotifySeconds
-    {
-        get => _classPrepareNotifySeconds;
-        set
-        {
-            if (value == _classPrepareNotifySeconds) return;
-            _classPrepareNotifySeconds = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool IsClassPrepareNotificationEnabled
-    {
-        get => _isClassPrepareNotificationEnabled;
-        set
-        {
-            if (value == _isClassPrepareNotificationEnabled) return;
-            _isClassPrepareNotificationEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
     public ObservableDictionary<string, object?> MiniInfoProviderSettings
     {
         get => _miniInfoProviderSettings;
@@ -416,28 +381,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
         {
             if (value == _hideOnClass) return;
             _hideOnClass = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool IsClassChangingNotificationEnabled
-    {
-        get => _isClassChangingNotificationEnabled;
-        set
-        {
-            if (value == _isClassChangingNotificationEnabled) return;
-            _isClassChangingNotificationEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool IsClassOffNotificationEnabled
-    {
-        get => _isClassOffNotificationEnabled;
-        set
-        {
-            if (value == _isClassOffNotificationEnabled) return;
-            _isClassOffNotificationEnabled = value;
             OnPropertyChanged();
         }
     }
@@ -1659,17 +1602,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
         }
     }
 
-    public UpdateSourceKind LastUpdateSourceKind
-    {
-        get => _lastUpdateSourceKind;
-        set
-        {
-            if (value == _lastUpdateSourceKind) return;
-            _lastUpdateSourceKind = value;
-            OnPropertyChanged();
-        }
-    }
-
     public string UpdateReleaseInfo
     {
         get => _updateReleaseInfo;
@@ -1677,29 +1609,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
         {
             if (value == _updateReleaseInfo) return;
             _updateReleaseInfo = value;
-            OnPropertyChanged();
-        }
-    }
-
-
-    public string UpdateDownloadUrl
-    {
-        get => _updateDownloadUrl;
-        set
-        {
-            if (value == _updateDownloadUrl) return;
-            _updateDownloadUrl = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public Version UpdateVersion
-    {
-        get => _updateVersion;
-        set
-        {
-            if (Equals(value, _updateVersion)) return;
-            _updateVersion = value;
             OnPropertyChanged();
         }
     }
@@ -1984,29 +1893,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
 
     #region Exp
 
-    [Obsolete]
-    public bool ExpIsExcelImportEnabled
-    {
-        get => _expIsExcelImportEnabled;
-        set
-        {
-            if (value == _expIsExcelImportEnabled) return;
-            _expIsExcelImportEnabled = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool ExpAllowEditingActivatedTimeLayout
-    {
-        get => _expAllowEditingActivatedTimeLayout;
-        set
-        {
-            if (value == _expAllowEditingActivatedTimeLayout) return;
-            _expAllowEditingActivatedTimeLayout = value;
-            OnPropertyChanged();
-        }
-    }
-
     #endregion
 
     #region Diagnose
@@ -2284,7 +2170,7 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
         get => _debugTimeOffsetSeconds;
         set
         {
-            if (value == _debugTimeOffsetSeconds) return;
+            if (value.Equals(_debugTimeOffsetSeconds)) return;
             _debugTimeOffsetSeconds = value;
             OnPropertyChanged();
         }
@@ -2297,17 +2183,6 @@ public class Settings : ObservableRecipient, ILessonControlSettings, INotificati
         {
             if (value == _timeLayoutEditorIndex) return;
             _timeLayoutEditorIndex = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public bool IsDebugConsoleEnabled
-    {
-        get => _isDebugConsoleEnabled;
-        set
-        {
-            if (value == _isDebugConsoleEnabled) return;
-            _isDebugConsoleEnabled = value;
             OnPropertyChanged();
         }
     }
