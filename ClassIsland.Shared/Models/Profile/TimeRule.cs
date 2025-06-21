@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ClassIsland.Shared.JsonConverters;
 namespace ClassIsland.Shared.Models.Profile;
@@ -18,7 +19,7 @@ public partial class TimeRule : ObservableRecipient
     /// <remarks>
     /// 受到 <see cref="TimeRuleJsonConverter"/> 作用。
     /// </remarks>
-    [ObservableProperty] List<int> _weekDays = [0];
+    [ObservableProperty] ObservableCollection<int> _weekDays = [0];
 
     /// <summary>
     /// 在多周轮换中的哪些周启用这个课表。
@@ -26,7 +27,7 @@ public partial class TimeRule : ObservableRecipient
     /// <remarks>
     /// 受到 <see cref="TimeRuleJsonConverter"/> 作用。
     /// </remarks>
-    [ObservableProperty] List<int> _weekCountDivs = [0];
+    [ObservableProperty] ObservableCollection<int> _weekCountDivs = [0];
 
     /// <summary>
     /// 多周轮换总周数
