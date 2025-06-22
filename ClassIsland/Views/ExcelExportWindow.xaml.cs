@@ -151,7 +151,7 @@ public partial class ExcelExportWindow
 
         PostRefreshWorksheet();
         ViewModel.SelectedClassPlanIds = new ObservableCollection<string>(ProfileService.Profile.ClassPlans
-            .Where(x => x.Value is { IsEnabled: true, TimeRule.WeekDay: >= 1 and <= 5 })
+            .Where(x => x.Value.IsEnabled && x.Value.TimeRule.WeekDays.Any(day => day is >= 1 and <= 5))
             .Select(x => x.Key));
         GenerateClassPlanCells(false);
 

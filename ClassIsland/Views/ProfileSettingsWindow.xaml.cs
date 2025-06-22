@@ -1182,7 +1182,7 @@ public partial class ProfileSettingsWindow : MyWindow
         var warnings = new List<string>();
         foreach (var i in ProfileService.Profile.ClassPlans)
         {
-            if (i.Value.TimeRule.WeekCountDivTotal > 2 || i.Value.TimeRule.WeekCountDiv > 2)
+            if (i.Value.TimeRule.WeekCountDivTotal > 2)
             {
                 warnings.Add($"课程表 {i.Value.Name}：无法导出包含 2 周以上轮换的课表。");
             }

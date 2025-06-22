@@ -581,7 +581,7 @@ public class LessonsService : ObservableRecipient, ILessonsService
         if (plan.IsOverlay || !plan.IsEnabled)
             return false;
 
-        if (plan.TimeRule.WeekDay != (int)time.DayOfWeek)
+        if (!plan.TimeRule.WeekDays.Contains((int)time.DayOfWeek))
         {
             return false;
         }
@@ -593,12 +593,12 @@ public class LessonsService : ObservableRecipient, ILessonsService
             return false;
         }
 
-        if (plan.TimeRule.WeekCountDiv == 0)
+        if (plan.TimeRule.WeekCountDivs.Contains(0))
             return true;
 
         // RefreshMultiWeekRotation();
         var rotation = GetCyclePositionsByDate(time);
-        return plan.TimeRule.WeekCountDiv == rotation[plan.TimeRule.WeekCountDivTotal];
+        return plan.TimeRule.WeekCountDivs.Contains(rotation[plan.TimeRule.WeekCountDivTotal]);
     }
 
     /// <summary>

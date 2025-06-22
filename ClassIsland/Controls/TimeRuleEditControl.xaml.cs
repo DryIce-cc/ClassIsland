@@ -5,6 +5,7 @@ using ClassIsland.Shared.Models.Profile;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -63,6 +64,7 @@ public partial class TimeRuleEditControl
 
     private void UpdateWeekCountDivsListBox()
     {
+        WeekCountDivsListBox.SelectionChanged -= WeekCountDivsListBox_FilterInvalidIndexes;
         WeekCountDivsListBox.ClearValue(SelectedIndexesListBox.SelectedIndexesProperty);
 
         // 填充列表
@@ -78,7 +80,10 @@ public partial class TimeRuleEditControl
         }
         WeekCountDivsListBox.ItemsSource = divList;
 
+        FilterInvalidWeekCountDivs();
+
         WeekCountDivsListBox.SetBinding(SelectedIndexesListBox.SelectedIndexesProperty, new Binding(nameof(TimeRule.WeekCountDivs)));
+        WeekCountDivsListBox.SelectionChanged += WeekCountDivsListBox_FilterInvalidIndexes;
     }
 
     private void UpdateWeekCountDivTotalListBox()
@@ -99,5 +104,34 @@ public partial class TimeRuleEditControl
         WeekCountDivTotalListBox.ItemsSource = divTotalList;
 
         WeekCountDivTotalListBox.SetBinding(Selector.SelectedIndexProperty, new Binding(nameof(TimeRule.WeekCountDivTotal)));
+    }
+
+    private void WeekCountDivsListBox_FilterInvalidIndexes(object sender, SelectionChangedEventArgs e)
+    {
+        if (sender is not SelectedIndexesListBox listBox) return;
+        if (e.AddedItems.Count > 0 && e.AddedItems[0]?.ToString() != "不限" && listBox.SelectedItems.Contains("不限"))
+        {
+            listBox.SelectedIndexes.Remove(0);
+        }
+        else if (e.AddedItems.Count > 0 && e.AddedItems[0]?.ToString() == "不限")
+            //|| listBox.SelectedIndexes.Count == TimeRule.WeekCountDivTotal - 1
+        {
+            listBox.SelectedIndexes = [0];
+        }
+        FilterInvalidWeekCountDivs();
+    }
+
+    private void FilterInvalidWeekCountDivs()
+    {
+        var invalidIndexes = TimeRule.WeekCountDivs.ToList()
+            .Where(i => i < 0 || i > TimeRule.WeekCountDivTotal).ToList();
+
+        foreach (var index in invalidIndexes)
+            TimeRule.WeekCountDivs.Remove(index);
+
+        if (TimeRule.WeekCountDivs.Count == 0)
+        {
+            TimeRule.WeekCountDivs.Add(0);
+        }
     }
 }

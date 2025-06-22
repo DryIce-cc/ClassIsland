@@ -15,7 +15,7 @@ public class WeekIndexToWeekStringConverter : IValueConverter
             case int index:
                 return ToWeek(index);
             case ObservableCollection<int> coll:
-                return string.Join(" ", coll.ToList().ConvertAll(ToWeek));
+                return string.Join(" ", coll.OrderBy(x=>x).ToList().ConvertAll(ToWeek));
             default:
                 return "";
         }

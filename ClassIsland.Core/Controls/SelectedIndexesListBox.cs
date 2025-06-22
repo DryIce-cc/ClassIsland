@@ -12,8 +12,6 @@ public class SelectedIndexesListBox : NonScrollingListBox
 {
     protected override void OnSelectionChanged(SelectionChangedEventArgs e)
     {
-        base.OnSelectionChanged(e);
-
         SelectedIndexes ??= new();
         if (_updatingSelection) return;
 
@@ -25,8 +23,9 @@ public class SelectedIndexesListBox : NonScrollingListBox
             var index = Items.IndexOf(item);
             if (index >= 0) SelectedIndexes.Add(index);
         }
-
         _updatingSelection = false;
+
+        base.OnSelectionChanged(e);
     }
 
     protected override void OnItemsSourceChanged(IEnumerable oldValue, IEnumerable newValue)
@@ -61,7 +60,6 @@ public class SelectedIndexesListBox : NonScrollingListBox
     {
         SelectedIndexes ??= new();
         if (_updatingSelection) return;
-
         _updatingSelection = true;
 
         switch (e.Action)
@@ -96,7 +94,8 @@ public class SelectedIndexesListBox : NonScrollingListBox
 
             default:
                 SelectedItems.Clear();
-                foreach (var index in SelectedIndexes)
+                var selectedIndexes = SelectedIndexes.ToList();
+                foreach (var index in selectedIndexes)
                 {
                     if (index >= 0 && index < Items.Count)
                     {
@@ -108,17 +107,28 @@ public class SelectedIndexesListBox : NonScrollingListBox
 
         _updatingSelection = false;
     }
-    
+
+    protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+    {
+        if (_updatingSelection) return;
+        _updatingSelection = true;
+        base.OnItemsChanged(e);
+        _updatingSelection = false;
+    }
+
     private void FilterInvalidIndexes()
     {
         if (SelectedIndexes == null) return;
+        if (_updatingSelection) return;
+        _updatingSelection = true;
 
-        // 不要动下面的代码，你猜为什么（
         var invalidIndexes = SelectedIndexes
-            .Where(i => i < 0 || i >= Items.Count).ToList();
+            .Where(i => i < 0 || i > Items.Count).ToList();
 
         foreach (var index in invalidIndexes)
             SelectedIndexes.Remove(index);
+
+        _updatingSelection = false;
     }
 
     private bool _updatingSelection;
