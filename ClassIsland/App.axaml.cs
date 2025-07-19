@@ -481,7 +481,7 @@ public partial class App : AppBase, IAppHost
         Thread.CurrentThread.CurrentCulture = new CultureInfo("zh-CN");
 
         // 检测Mutex
-        if (!IsMutexCreateNew && !Design.IsDesignMode)
+        if (!IsMutexCreateNew && !Design.IsDesignMode && false)
         {
             if (!ApplicationCommand.WaitMutex)
             {
