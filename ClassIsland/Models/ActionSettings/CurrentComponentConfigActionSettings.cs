@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-namespace ClassIsland.Models.Actions;
 
-public class SleepActionSettings : ObservableRecipient
+namespace ClassIsland.Models.ActionSettings;
+
+public class CurrentComponentConfigActionSettings : ObservableRecipient
 {
-    double _value = 5;
-    public double Value
+    string _value = "Default";
+    public string Value
     {
         get => _value;
         set

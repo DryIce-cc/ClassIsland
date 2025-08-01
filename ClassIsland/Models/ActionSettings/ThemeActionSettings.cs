@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-namespace ClassIsland.Models.Actions;
 
-public class AppRestartActionSettings : ObservableRecipient
+namespace ClassIsland.Models.ActionSettings;
+
+public class ThemeActionSettings : ObservableRecipient
 {
-    bool _value = false;
-    public bool Value
+    int _value = 2;
+    public int Value
     {
         get => _value;
         set

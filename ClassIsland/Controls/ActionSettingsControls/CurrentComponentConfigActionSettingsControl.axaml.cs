@@ -1,6 +1,6 @@
 using ClassIsland.Core.Abstractions.Controls;
 using ClassIsland.Core.Abstractions.Services;
-using ClassIsland.Models.Actions;
+using ClassIsland.Models.ActionSettings;
 
 namespace ClassIsland.Controls.ActionSettingsControls;
 

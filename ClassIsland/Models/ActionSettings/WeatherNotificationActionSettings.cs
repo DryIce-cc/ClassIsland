@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace ClassIsland.Models.Actions;
+namespace ClassIsland.Models.ActionSettings;
 
 public partial class WeatherNotificationActionSettings : ObservableObject
 {

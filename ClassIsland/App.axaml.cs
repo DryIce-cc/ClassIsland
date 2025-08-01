@@ -35,9 +35,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using OfficeOpenXml;
-
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
-using UpdateStatus = ClassIsland.Shared.Enums.UpdateStatus;
 #if DEBUG
 using JetBrains.Profiler.Api;
 #endif
@@ -46,7 +43,6 @@ using ClassIsland.Core.Models.Ruleset;
 using Sentry;
 using ClassIsland.Core.Controls.Ruleset;
 using ClassIsland.Models.Rules;
-using ClassIsland.Models.Actions;
 using ClassIsland.Shared.IPC.Abstractions.Services;
 using dotnetCampus.Ipc.CompilerServices.GeneratedProxies;
 using ClassIsland.Core.Enums;
@@ -87,6 +83,8 @@ using ClassIsland.Helpers;
 using ClassIsland.Platforms.Abstraction;
 using ClassIsland.Platforms.Abstraction.Enums;
 using ClassIsland.Platforms.Abstraction.Services;
+using ClassIsland.Services.Automation.Actions;
+using ClassIsland.Shared.Enums;
 using ClassIsland.Shared.Protobuf.AuditEvent;
 using ClassIsland.Shared.Protobuf.Enum;
 using ClassIsland.ViewModels;
@@ -96,8 +94,6 @@ using FluentAvalonia.UI.Controls;
 using Google.Protobuf.WellKnownTypes;
 using HotAvalonia;
 using ReactiveUI;
-using Empty = Google.Protobuf.WellKnownTypes.Empty;
-using LicenseContext = OfficeOpenXml.LicenseContext;
 
 namespace ClassIsland;
 /// <summary>
@@ -475,7 +471,7 @@ public partial class App : AppBase, IAppHost
         AppBase.CurrentLifetime = ClassIsland.Core.Enums.ApplicationLifetime.Initializing;
         Dispatcher.UIThread.UnhandledException += App_OnDispatcherUnhandledException;
         MyWindow.ShowOssWatermark = ApplicationCommand.ShowOssWatermark;
-        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
         //DependencyPropertyHelper.ForceOverwriteDependencyPropertyDefaultValue(FrameworkElement.FocusVisualStyleProperty,
         //    Resources[SystemParameters.FocusVisualStyleKey]);
 
@@ -779,25 +775,26 @@ public partial class App : AppBase, IAppHost
                 // services.AddRule<CurrentWeatherRuleSettings, CurrentWeatherRuleSettingsControl>("classisland.weather.currentWeather", "当前天气是", MaterialIconKind.WeatherCloudy);
                 // services.AddRule<StringMatchingSettings, RulesetStringMatchingSettingsControl>("classisland.weather.hasWeatherAlert", "存在气象预警", MaterialIconKind.WeatherCloudyAlert);
                 // services.AddRule<RainTimeRuleSettings, RainTimeRuleSettingsControl>("classisland.weather.rainTime", "距离降水开始/结束还剩", MaterialIconKind.WeatherHeavyRain);
-                // // 行动
-                services.AddAction<SignalTriggerSettings, BroadcastSignalActionSettingsControl>("classisland.broadcastSignal", "广播信号", "\uE561");
-                services.AddAction<CurrentComponentConfigActionSettings, CurrentComponentConfigActionSettingsControl>("classisland.settings.currentComponentConfig", "组件配置方案", "\ue06f");
-                services.AddAction<ThemeActionSettings, ThemeActionSettingsControl>("classisland.settings.theme", "应用主题", "\uE5CB");
-                services.AddAction<WindowDockingLocationActionSettings, WindowDockingLocationActionSettingsControl>("classisland.settings.windowDockingLocation", "窗口停靠位置", "\uf397");
-                services.AddAction<WindowLayerActionSettings, WindowLayerActionSettingsControl>("classisland.settings.windowLayer", "窗口层级", "\uea2f");
-                services.AddAction<WindowDockingOffsetXActionSettings, WindowDockingOffsetXActionSettingsControl>("classisland.settings.windowDockingOffsetX", "窗口向右偏移", "\ue099");
-                services.AddAction<WindowDockingOffsetYActionSettings, WindowDockingOffsetYActionSettingsControl>("classisland.settings.windowDockingOffsetY", "窗口向下偏移", "\ue094");
-                services.AddAction<RunActionSettings, RunActionSettingsControl>("classisland.os.run", "运行", "\uec2e");
-                services.AddAction<NotificationActionSettings, NotificationActionSettingsControl>("classisland.showNotification", "显示提醒", "\ue02b");
-                services.AddAction<SleepActionSettings, SleepActionSettingsControl>("classisland.action.sleep", "等待时长", "\ue9ae");
-                services.AddAction<WeatherNotificationActionSettings, WeatherNotificationActionSettingControl>("classisland.notification.weather", "显示天气提醒", "\uf44f");
-                services.AddAction("classisland.app.quit", "退出 ClassIsland", "\ue0de", (_, _) => Current.Stop());
-                services.AddAction<AppRestartActionSettings,AppRestartActionSettingsControl>("classisland.app.restart", "重启 ClassIsland", "\ue0bd");
+                // // 行动提供方
+                // services.AddAction<SignalTriggerSettings, BroadcastSignalActionSettingsControl>("classisland.broadcastSignal", "广播信号", "\uE561");
+                // services.AddAction<CurrentComponentConfigActionSettings, CurrentComponentConfigActionSettingsControl>("classisland.settings.currentComponentConfig", "组件配置方案", "\ue06f");
+                // services.AddAction<ThemeActionSettings, ThemeActionSettingsControl>("classisland.settings.theme", "应用主题", "\uE5CB");
+                // services.AddAction<WindowDockingLocationActionSettings, WindowDockingLocationActionSettingsControl>("classisland.settings.windowDockingLocation", "窗口停靠位置", "\uf397");
+                // services.AddAction<WindowLayerActionSettings, WindowLayerActionSettingsControl>("classisland.settings.windowLayer", "窗口层级", "\uea2f");
+                // services.AddAction<WindowDockingOffsetXActionSettings, WindowDockingOffsetXActionSettingsControl>("classisland.settings.windowDockingOffsetX", "窗口向右偏移", "\ue099");
+                // services.AddAction<WindowDockingOffsetYActionSettings, WindowDockingOffsetYActionSettingsControl>("classisland.settings.windowDockingOffsetY", "窗口向下偏移", "\ue094");
+                // services.AddAction<RunActionSettings, RunActionSettingsControl>("classisland.os.run", "运行", "\uec2e");
+                services.AddAction<RunAction, RunActionSettingsControl>();
+                // services.AddAction<NotificationActionSettings, NotificationActionSettingsControl>("classisland.showNotification", "显示提醒", "\ue02b");
+                // services.AddAction<SleepActionSettings, SleepActionSettingsControl>("classisland.action.sleep", "等待时长", "\ue9ae");
+                // services.AddAction<WeatherNotificationActionSettings, WeatherNotificationActionSettingControl>("classisland.notification.weather", "显示天气提醒", "\uf44f");
+                // services.AddAction("classisland.app.quit", "退出 ClassIsland", "\ue0de", delegate { Current.Stop(); });
+                // services.AddAction<AppRestartActionSettings,AppRestartActionSettingsControl>("classisland.app.restart", "重启 ClassIsland", "\ue0bd");
                 // 行动处理
-                services.AddHostedService<AppRestartActionHandler>();
-                services.AddHostedService<RunActionHandler>();
-                services.AddHostedService<AppSettingsActionHandler>();
-                services.AddHostedService<SleepActionHandler>();
+                // services.AddHostedService<AppRestartActionHandler>();
+                // services.AddHostedService<RunActionHandler>();
+                // services.AddHostedService<AppSettingsActionHandler>();
+                // services.AddHostedService<SleepActionHandler>();
                 // // 认证提供方
                 // services.AddAuthorizeProvider<PasswordAuthorizeProvider>();
                 // // 语音提供方
@@ -979,7 +976,7 @@ public partial class App : AppBase, IAppHost
             }
             if (IAppHost.TryGetService<IManagementService>() is IManagementService { IsManagementEnabled: true, Connection: ManagementServerConnection connection })
             {
-                connection.LogAuditEvent(AuditEvents.AppStarted, new Empty());
+                connection.LogAuditEvent(AuditEvents.AppStarted, new Google.Protobuf.WellKnownTypes.Empty());
             }
             _isStartedCompleted = true;
             AppBase.CurrentLifetime = ClassIsland.Core.Enums.ApplicationLifetime.Running;
@@ -1145,7 +1142,7 @@ public partial class App : AppBase, IAppHost
             Logger?.LogInformation("正在停止应用");
             if (IAppHost.TryGetService<IManagementService>() is { IsManagementEnabled: true, Connection: ManagementServerConnection connection })
             {
-                connection.LogAuditEvent(AuditEvents.AppExited, new Empty());
+                connection.LogAuditEvent(AuditEvents.AppExited, new Google.Protobuf.WellKnownTypes.Empty());
             }
             AppStopping?.Invoke(this, EventArgs.Empty);
             if (!partial)

@@ -7,7 +7,7 @@
  using Avalonia.Interactivity;
  using Avalonia.VisualTree;
  using ClassIsland.Core.Abstractions.Controls;
- using ClassIsland.Models.Actions;
+  using ClassIsland.Models.ActionSettings;
  using ClassIsland.Views;
  using FluentAvalonia.UI.Controls;
 
@@ -38,14 +38,14 @@
          ShowSettings();
      }
      private async Task ShowSettings(){
-     if (!this.TryFindResource("NSettingsDrawer", out var resource)||        resource is not IDataTemplate template)
-     {
-         return;
-     }
+         if (!this.TryFindResource("NSettingsDrawer", out var resource) ||
+             resource is not IDataTemplate template)
+         {
+             return;
+         }
 
-     // 2. 从模板创建新实例
-     var drawer = template.Build(new ContentControl()) as Control;
-     if (drawer == null) return;
+         var drawer = template.Build(new ContentControl());
+         if (drawer == null) return;
 
          drawer.DataContext = this;
 

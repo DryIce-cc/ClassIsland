@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-namespace ClassIsland.Models.Actions;
 
-public class WindowDockingLocationActionSettings : ObservableRecipient
+namespace ClassIsland.Models.ActionSettings;
+
+public class SleepActionSettings : ObservableRecipient
 {
-    int _value = 2;
-    public int Value
+    double _value = 5;
+    public double Value
     {
         get => _value;
         set

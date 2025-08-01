@@ -1,6 +1,5 @@
 using ClassIsland.Core.Abstractions.Controls;
-using ClassIsland.Models.Actions;
-
+using ClassIsland.Models.ActionSettings;
 namespace ClassIsland.Controls.ActionSettingsControls;
 
 public partial class AppRestartActionSettingsControl : ActionSettingsControlBase<AppRestartActionSettings>

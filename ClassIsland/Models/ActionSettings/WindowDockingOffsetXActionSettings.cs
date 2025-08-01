@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-namespace ClassIsland.Models.Actions;
 
-public class WindowLayerActionSettings : ObservableRecipient
+namespace ClassIsland.Models.ActionSettings;
+
+public class WindowDockingOffsetXActionSettings : ObservableRecipient
 {
-    int _value = 1;
+    int _value = 0;
     public int Value
     {
         get => _value;

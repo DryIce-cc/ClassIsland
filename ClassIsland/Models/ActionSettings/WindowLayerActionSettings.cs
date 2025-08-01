@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-namespace ClassIsland.Models.Actions;
 
-public class CurrentComponentConfigActionSettings : ObservableRecipient
+namespace ClassIsland.Models.ActionSettings;
+
+public class WindowLayerActionSettings : ObservableRecipient
 {
-    string _value = "Default";
-    public string Value
+    int _value = 1;
+    public int Value
     {
         get => _value;
         set
