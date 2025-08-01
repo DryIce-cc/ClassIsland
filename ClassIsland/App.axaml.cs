@@ -673,11 +673,12 @@ public partial class App : AppBase, IAppHost
                 services.AddTransient<ClassPlanDetailsWindow>();
                 services.AddTransient<WindowRuleDebugWindow>();
                 // services.AddTransient<ConfigErrorsWindow>();
-                // services.AddTransient<TimeAdjustmentWindow>();
+                services.AddTransient<TimeAdjustmentWindow>();
                 // services.AddTransient<ExcelExportWindow>();
                 services.AddTransient<DevPortalWindow>();
                 services.AddTransient<WelcomeWindow>();
                 services.AddTransient<DataTransferWindow>();
+                services.AddTransient<DebugPageViewModel>();
                 // 设置页面
                 services.AddSettingsPage<GeneralSettingsPage>();
                 services.AddSettingsPage<ComponentsSettingsPage>();
@@ -692,7 +693,7 @@ public partial class App : AppBase, IAppHost
                 services.AddSettingsPage<PluginsSettingsPage>();
                 services.AddSettingsPage<ThemesSettingsPage>();
                 services.AddSettingsPage<TestSettingsPage>();
-                // services.AddSettingsPage<DebugPage>();
+                services.AddSettingsPage<DebugPage>();
                 // services.AddSettingsPage<DebugBrushesSettingsPage>();
                 services.AddSettingsPage<AboutSettingsPage>();
                 // services.AddSettingsPage<ManagementSettingsPage>();
@@ -1007,9 +1008,9 @@ public partial class App : AppBase, IAppHost
         // 注册uri导航
         var uriNavigationService = GetService<IUriNavigationService>();
         uriNavigationService.HandleAppNavigation("test", args => _ = CommonTaskDialogs.ShowDialog("测试导航", $"{args.Uri}"));
-        // uriNavigationService.HandleAppNavigation("settings", args => GetService<SettingsWindowNew>().OpenUri(args.Uri));
-        // uriNavigationService.HandleAppNavigation("profile", args => GetService<MainWindow>().OpenProfileSettingsWindow());
-        // uriNavigationService.HandleAppNavigation("helps", args => uriNavigationService.Navigate(new Uri("https://docs.classisland.tech/app/")));
+        uriNavigationService.HandleAppNavigation("settings", args => GetService<SettingsWindowNew>().OpenUri(args.Uri));
+        uriNavigationService.HandleAppNavigation("profile", args => GetService<MainWindow>().OpenProfileSettingsWindow());
+        uriNavigationService.HandleAppNavigation("helps", args => uriNavigationService.Navigate(new Uri("https://docs.classisland.tech/app/")));
         // uriNavigationService.HandleAppNavigation("profile/import-excel", args => GetService<ExcelImportWindow>().Show());
         // uriNavigationService.HandleAppNavigation("config-errors", args => GetService<ConfigErrorsWindow>().ShowDialog());
 
