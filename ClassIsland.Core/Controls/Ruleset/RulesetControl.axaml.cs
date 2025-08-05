@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
+using Avalonia.Input;
 using Avalonia.Interactivity;
 using ClassIsland.Core.Models.Ruleset;
 using ClassIsland.Shared.Helpers;
@@ -75,5 +76,24 @@ public partial class RulesetControl : UserControl
     {
         Ruleset.Groups.Add(ConfigureFileHelper.CopyObject(group));
     }
-    
+
+    private void ScrollViewerRulesetActions_OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
+    {
+        if (sender is not ScrollViewer viewer) return;
+
+        var before = viewer.Offset.X;
+        if (e.Delta.Y > 0)
+        {
+            viewer.PageLeft();
+        }
+        else
+        {
+            viewer.PageRight();
+        }
+
+        if (viewer.Offset.X != before)
+        {
+            e.Handled = true;
+        }
+    }
 }

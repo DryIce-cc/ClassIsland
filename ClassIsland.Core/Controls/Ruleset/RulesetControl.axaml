@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ClassIsland.Core.Controls.Ruleset"
              xmlns:controls="clr-namespace:ClassIsland.Core.Controls"
              xmlns:converters="clr-namespace:ClassIsland.Core.Abstractions.Converters"
-                      xmlns:services="clr-namespace:ClassIsland.Core.Abstractions.Services"
+             xmlns:services="clr-namespace:ClassIsland.Core.Abstractions.Services"
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:controls1="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
              mc:Ignorable="d"
@@ -41,8 +41,8 @@
             <TextBlock Text="规则集" Classes="Headline5"
                            Margin="0 0 0 8" IsVisible="{Binding ShowTitle}"/>
             <WrapPanel Orientation="Horizontal">
-                <ComboBox
-                    SelectedIndex="{Binding Ruleset.Mode, Converter={StaticResource RuleLogicalModeToIntConverter}}">
+                <ComboBox Margin="0 0 8 0"
+                          SelectedIndex="{Binding Ruleset.Mode, Converter={StaticResource RuleLogicalModeToIntConverter}}">
                     <ComboBoxItem>
                         <controls:IconText Glyph="&#xE590;" Text="当以下任意规则组满足时" />
                     </ComboBoxItem>
@@ -62,8 +62,8 @@
                          DataContext="{Binding Ruleset.State}"
                          Classes="rule-state-indicator"/>
             </WrapPanel>
-
         </StackPanel>
+        
         <!-- Main list box -->
         <ListBox Grid.Row="1" ItemsSource="{Binding Ruleset.Groups}">
             <Interaction.Behaviors>
@@ -76,54 +76,56 @@
                             CornerRadius="2"
                             Margin="-4">
                         <Grid RowDefinitions="Auto,*">
-                            <WrapPanel Grid.Row="0" Orientation="Horizontal"
-                                       HorizontalAlignment="Left"
-                                       VerticalAlignment="Center">
-                                <ComboBox
-                                    SelectedIndex="{Binding Mode, Converter={StaticResource RuleLogicalModeToIntConverter}}">
-                                    <ComboBoxItem>
-                                        <controls:IconText Glyph="&#xE590;" Text="当以下任意规则满足时" />
-                                    </ComboBoxItem>
-                                    <ComboBoxItem>
-                                        <controls:IconText Glyph="&#xE591;" Text="当以下所有规则满足时" />
-                                    </ComboBoxItem>
-                                </ComboBox>
-                                <CheckBox Content="反转" IsChecked="{Binding IsReversed}"/>
-                                <Button Theme="{StaticResource TransparentButton}"
-                                        Classes="accent"
-                                        Command="{Binding AddRuleCommand, RelativeSource={RelativeSource AncestorType=local:RulesetControl}}"
-                                        CommandParameter="{Binding}">
-                                    <controls:IconText Glyph="&#xE00D;" Text="规则"
-                                                       Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
-                                </Button>
-                            </WrapPanel>
-
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center"
-                                        HorizontalAlignment="Right">
-                                <Ellipse Width="8" Height="8"
-                                         Margin="0 0 4 0"
-                                         DataContext="{Binding Ruleset.State}"
-                                         Classes="rule-state-indicator"/>
-                                <ToggleButton ToolTip.Tip="启用规则集"
-                                              IsChecked="{Binding IsEnabled}"
-                                              Margin="0 0 4 0"/>
-                                <Button
-                                    Theme="{StaticResource TransparentButton}"
-                                        Classes="circle"
-                                        ToolTip.Tip="复制"
-                                        Command="{Binding DuplicateGroupCommand, RelativeSource={RelativeSource AncestorType=local:RulesetControl}}"
-                                        CommandParameter="{Binding}"
-                                        Margin="0 0 4 0">
-                                    <controls1:SymbolIcon Symbol="Copy"/>
-                                </Button>
-                                <Button Theme="{StaticResource TransparentButton}"
-                                        Classes="circle"
-                                        Command="{Binding RemoveGroupCommand, RelativeSource={RelativeSource AncestorType=local:RulesetControl}}"
-                                        CommandParameter="{Binding}"
-                                        ToolTip.Tip="删除"
-                                        Content="{controls:FluentIcon &#xE671;}">
-                                </Button>
-                            </StackPanel>
+                            <ScrollViewer Grid.Row="0" PointerWheelChanged="ScrollViewerRulesetActions_OnPointerWheelChanged" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
+                                <Grid ColumnDefinitions="Auto,*,Auto" HorizontalAlignment="Stretch" Margin="0 0 0 2"
+                                      MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                        <ComboBox Margin="0 0 8 0"
+                                                  SelectedIndex="{Binding Mode, Converter={StaticResource RuleLogicalModeToIntConverter}}">
+                                            <ComboBoxItem>
+                                                <controls:IconText Glyph="&#xE590;" Text="当以下任意规则满足时" />
+                                            </ComboBoxItem>
+                                            <ComboBoxItem>
+                                                <controls:IconText Glyph="&#xE591;" Text="当以下所有规则满足时" />
+                                            </ComboBoxItem>
+                                        </ComboBox>
+                                        <CheckBox Content="反转" IsChecked="{Binding IsReversed}"/>
+                                        <Button Theme="{StaticResource TransparentButton}"
+                                                Classes="accent"
+                                                Command="{Binding AddRuleCommand, RelativeSource={RelativeSource AncestorType=local:RulesetControl}}"
+                                                CommandParameter="{Binding}">
+                                            <controls:IconText Glyph="&#xE00D;" Text="规则"
+                                                               Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                                        </Button>
+                                    </StackPanel>
+                                    
+                                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                        <Ellipse Width="8" Height="8"
+                                                 Margin="0 0 4 0"
+                                                 DataContext="{Binding State}"
+                                                 Classes="rule-state-indicator"/>
+                                        <ToggleSwitch ToolTip.Tip="启用规则集"
+                                                      IsChecked="{Binding IsEnabled}"
+                                                      Margin="0 0 4 0"/>
+                                        <Button
+                                            Theme="{StaticResource TransparentButton}"
+                                                Classes="circle"
+                                                ToolTip.Tip="复制"
+                                                Command="{Binding DuplicateGroupCommand, RelativeSource={RelativeSource AncestorType=local:RulesetControl}}"
+                                                CommandParameter="{Binding}"
+                                                Margin="0 0 4 0">
+                                            <controls1:SymbolIcon Symbol="Copy"/>
+                                        </Button>
+                                        <Button Theme="{StaticResource TransparentButton}"
+                                                Classes="circle"
+                                                Command="{Binding RemoveGroupCommand, RelativeSource={RelativeSource AncestorType=local:RulesetControl}}"
+                                                CommandParameter="{Binding}"
+                                                ToolTip.Tip="删除"
+                                                Content="{controls:FluentIcon &#xE671;}">
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </ScrollViewer>
 
                             <ItemsControl Grid.Row="1" ItemsSource="{Binding Rules}">
                                 <Interaction.Behaviors>
@@ -131,7 +133,7 @@
                                 </Interaction.Behaviors>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="0 2" ColumnDefinitions="Auto,Auto,Auto,2*,3*">
+                                        <Grid Margin="0 0 0 2" ColumnDefinitions="Auto,Auto,Auto,2*,3*">
                                             <Button Grid.Column="0"
                                                     Theme="{StaticResource TransparentButton}"
                                                     Classes="circle"
