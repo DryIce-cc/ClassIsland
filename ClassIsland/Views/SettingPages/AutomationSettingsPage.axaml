@@ -15,7 +15,7 @@
                      d:DataContext="{d:DesignInstance local:AutomationSettingsPage}">
     <Grid>
         <Grid RowDefinitions="Auto,*"
-            IsVisible="{Binding ViewModel.SettingsService.Settings.IsAutomationWarningVisible, Converter={StaticResource InvertBooleanConverter}}">
+              IsVisible="{Binding ViewModel.SettingsService.Settings.IsAutomationWarningVisible, Converter={StaticResource InvertBooleanConverter}}">
             <!-- 自动化编辑 -->
             <controls1:ListDetailView Grid.Row="1"
                                       ShowTitleWhenNotCompressed="True"
@@ -23,7 +23,7 @@
                                       Margin="12"
                                       IsVisible="{Binding ViewModel.SettingsService.Settings.IsAutomationWarningVisible, Converter={StaticResource InvertBooleanConverter}}">
                 <controls1:ListDetailView.LeftContent>
-                    <Grid RowDefinitions="Auto,Auto,*,Auto">
+                    <Grid RowDefinitions="Auto,Auto,*,Auto" Classes="animated-intro">
                         <!-- 自动化开关 -->
                         <fa:SettingsExpander Grid.Row="0"
                                              IconSource="{ci:FluentIconSource &#xEEF1;}"
@@ -42,7 +42,6 @@
                         </fa:SettingsExpander>
 
                         <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto">
-
                             <!-- 添加自动化 -->
                             <Button Theme="{StaticResource TransparentButton}"
                                     Click="ButtonAdd_OnClick"
@@ -83,45 +82,45 @@
 
                         <!-- 左：自动化导航栏 -->
                         <ScrollViewer Grid.Row="2">
-                        <ListBox ItemsSource="{Binding ViewModel.AutomationService.Workflows}"
-                                 SelectionMode="Single"
-                                 SelectionChanged="SelectorMain_OnSelected"
-                                 SelectedItem="{Binding ViewModel.SelectedAutomation, Mode=TwoWay}">
-                            <ListBox.Styles>
-                                <Style Selector="ListBox:not(.no-drag) ListBoxItem">
-                                    <Setter Property="Interaction.Behaviors">
-                                        <BehaviorCollectionTemplate>
-                                            <BehaviorCollection>
-                                                <ItemDragBehavior HorizontalDragThreshold="33550336" VerticalDragThreshold="3"
-                                                                  Orientation="Vertical"/>
-                                            </BehaviorCollection>
-                                        </BehaviorCollectionTemplate>
-                                    </Setter>
-                                </Style>
-                            </ListBox.Styles>
+                            <ListBox ItemsSource="{Binding ViewModel.AutomationService.Workflows}"
+                                     SelectionMode="Single"
+                                     SelectionChanged="SelectorMain_OnSelected"
+                                     SelectedItem="{Binding ViewModel.SelectedAutomation, Mode=TwoWay}">
+                                <ListBox.Styles>
+                                    <Style Selector="ListBox:not(.no-drag) ListBoxItem">
+                                        <Setter Property="Interaction.Behaviors">
+                                            <BehaviorCollectionTemplate>
+                                                <BehaviorCollection>
+                                                    <ItemDragBehavior HorizontalDragThreshold="33550336" VerticalDragThreshold="3"
+                                                                      Orientation="Vertical"/>
+                                                </BehaviorCollection>
+                                            </BehaviorCollectionTemplate>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.Styles>
 
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid DataContext="{Binding}"
-                                          d:DataContext="{d:DesignInstance models:Workflow}"
-                                          Background="Transparent" ColumnDefinitions="Auto,*,Auto">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid DataContext="{Binding}"
+                                              d:DataContext="{d:DesignInstance models:Workflow}"
+                                              Background="Transparent" ColumnDefinitions="Auto,*,Auto">
 
-                                        <!-- 标题 -->
-                                        <TextBlock Grid.Column="0" Grid.Row="0"
-                                                   TextWrapping="Wrap"
-                                                   Text="{Binding ActionSet.Name}"
-                                                   FontSize="13"
-                                                   FontWeight="Medium"
-                                                   VerticalAlignment="Center"/>
+                                            <!-- 标题 -->
+                                            <TextBlock Grid.Column="0" Grid.Row="0"
+                                                       TextWrapping="Wrap"
+                                                       Text="{Binding ActionSet.Name}"
+                                                       FontSize="13"
+                                                       FontWeight="Medium"
+                                                       VerticalAlignment="Center"/>
 
-                                        <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0 0 12 0">
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="0 0 12 0">
 
-                                            <ToggleSwitch IsChecked="{Binding ActionSet.IsEnabled}" />
-                                        </StackPanel>
-                                    </Grid>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
+                                                <ToggleSwitch IsChecked="{Binding ActionSet.IsEnabled}" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
                         </ScrollViewer>
                     </Grid>
                 </controls1:ListDetailView.LeftContent>
@@ -129,7 +128,8 @@
                 <!-- 右上：自动化重命名 -->
                 <controls1:ListDetailView.TitleElement>
                     <WrapPanel IsVisible="{Binding ViewModel.SelectedAutomation, Converter={x:Static ObjectConverters.IsNotNull}}"
-                               Orientation="Horizontal">
+                               Orientation="Horizontal"
+                               Classes="animated-intro">
                         <TextBox DataContext="{Binding ViewModel.SelectedAutomation, Mode=OneWay}"
                                  Text="{Binding ActionSet.Name, UpdateSourceTrigger=PropertyChanged}"
                                  FontWeight="Medium"
@@ -139,114 +139,115 @@
                                  MinWidth="150"
                                  HorizontalAlignment="Left" />
                         <Grid HorizontalAlignment="Stretch" ColumnDefinitions="*, Auto">
+                            <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                        DataContext="{Binding ViewModel.SelectedAutomation, Mode=OneWay}"
+                                        Margin="4 0 0 0">
+                                <StackPanel.Styles>
+                                    <Style Selector="ci|IconText.Foreground_AccentTextFillColorPrimaryBrush">
+                                        <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                                    </Style>
+                                </StackPanel.Styles>
+                                <CheckBox IsChecked="{Binding ActionSet.IsRevertEnabled}"
+                                          Content="启用恢复"/>
+                                <Button Click="CommandInvokeAction_OnExecuted"
+                                        CommandParameter="{Binding ActionSet}"
+                                        Theme="{StaticResource TransparentButton}">
+                                    <ci:IconText Glyph="&#xEDBF;" Text="触发"
+                                                 ToolTip.Tip="手动触发行动。">
+                                        <Classes.Foreground_AccentTextFillColorPrimaryBrush>
+                                            <Binding Path="ActionSet.Status" Mode="OneWay" Converter="{x:Static ObjectConverters.Equal}">
+                                                <Binding.ConverterParameter>
+                                                    <enums:ActionSetStatus>Normal</enums:ActionSetStatus> <!--TODO: Test & Complete-->
+                                                </Binding.ConverterParameter>
+                                            </Binding>
+                                        </Classes.Foreground_AccentTextFillColorPrimaryBrush>
+                                    </ci:IconText>
+                                </Button>
 
-                        <StackPanel Grid.Column="1" Orientation="Horizontal"
-                                    DataContext="{Binding ViewModel.SelectedAutomation, Mode=OneWay}"
-                                    Margin="4 0 0 0">
-                            <StackPanel.Styles>
-                                <Style Selector="ci|IconText.Foreground_AccentTextFillColorPrimaryBrush">
-                                    <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
-                                </Style>
-                            </StackPanel.Styles>
-                            <CheckBox IsChecked="{Binding ActionSet.IsRevertEnabled}"
-                                      Content="启用恢复"/>
-                            <Button Click="CommandInvokeAction_OnExecuted"
-                                    CommandParameter="{Binding ActionSet}"
-                                    Theme="{StaticResource TransparentButton}">
-                                <ci:IconText Glyph="&#xEDBF;" Text="触发"
-                                             ToolTip.Tip="手动触发行动。">
-                                    <Classes.Foreground_AccentTextFillColorPrimaryBrush>
-                                        <Binding Path="ActionSet.Status" Mode="OneWay" Converter="{x:Static ObjectConverters.Equal}">
-                                            <Binding.ConverterParameter>
-                                                <enums:ActionSetStatus>Normal</enums:ActionSetStatus> <!--TODO: Test & Complete-->
-                                            </Binding.ConverterParameter>
-                                        </Binding>
-                                    </Classes.Foreground_AccentTextFillColorPrimaryBrush>
-                                </ci:IconText>
-                            </Button>
-
-                            <Button Click="CommandRevertAction_OnExecuted"
-                                    CommandParameter="{Binding ActionSet}"
-                                    Theme="{StaticResource TransparentButton}">
-                                <ci:IconText Glyph="&#xE101;" Text="恢复"
-                                             ToolTip.Tip="触发恢复行动。">
-                                    <Classes.Foreground_AccentTextFillColorPrimaryBrush>
-                                        <Binding Path="ActionSet.Status" Mode="OneWay" Converter="{x:Static ObjectConverters.Equal}">
-                                            <Binding.ConverterParameter>
-                                                <enums:ActionSetStatus>On</enums:ActionSetStatus>
-                                            </Binding.ConverterParameter>
-                                        </Binding>
-                                    </Classes.Foreground_AccentTextFillColorPrimaryBrush>
-                                </ci:IconText>
-                            </Button>
-                            <Button Content="{ci:FluentIcon &#xE58B;}"
-                                    ToolTip.Tip="复制"
-                                    Theme="{StaticResource TransparentButton}"
-                                    Click="CommandDuplicate_OnExecuted"
-                                    CommandParameter="{Binding}"/>
-                            <Button Content="{ci:FluentIcon &#xE61D;}"
-                                    ToolTip.Tip="删除"
-                                    Theme="{StaticResource TransparentButton}"
-                                    Foreground="{DynamicResource SystemFillColorCriticalBrush}"
-                                    Click="CommandRemove_OnExecuted"
-                                    CommandParameter="{Binding}"/>
-                        </StackPanel></Grid>
+                                <Button Click="CommandRevertAction_OnExecuted"
+                                        CommandParameter="{Binding ActionSet}"
+                                        Theme="{StaticResource TransparentButton}">
+                                    <ci:IconText Glyph="&#xE101;" Text="恢复"
+                                                 ToolTip.Tip="触发恢复行动。">
+                                        <Classes.Foreground_AccentTextFillColorPrimaryBrush>
+                                            <Binding Path="ActionSet.Status" Mode="OneWay" Converter="{x:Static ObjectConverters.Equal}">
+                                                <Binding.ConverterParameter>
+                                                    <enums:ActionSetStatus>On</enums:ActionSetStatus>
+                                                </Binding.ConverterParameter>
+                                            </Binding>
+                                        </Classes.Foreground_AccentTextFillColorPrimaryBrush>
+                                    </ci:IconText>
+                                </Button>
+                                <Button Content="{ci:FluentIcon &#xE58B;}"
+                                        ToolTip.Tip="复制"
+                                        Theme="{StaticResource TransparentButton}"
+                                        Click="CommandDuplicate_OnExecuted"
+                                        CommandParameter="{Binding}"/>
+                                <Button Content="{ci:FluentIcon &#xE61D;}"
+                                        ToolTip.Tip="删除"
+                                        Theme="{StaticResource TransparentButton}"
+                                        Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                        Click="CommandRemove_OnExecuted"
+                                        CommandParameter="{Binding}"/>
+                            </StackPanel>
+                        </Grid>
                     </WrapPanel>
                 </controls1:ListDetailView.TitleElement>
 
                 <controls1:ListDetailView.RightContent>
-                    <Grid>
-            <ci:Emptiable Content="{Binding ViewModel.SelectedAutomation}">
-                <ci:Emptiable.ContentTemplate>
-                    <DataTemplate x:DataType="models:Workflow">
-                        <Grid>
-                            <ScrollViewer>
-                                <Grid RowDefinitions="Auto,Auto,Auto,Auto">
-                                    <!-- v2: 触发器编辑 -->
-                                   <Expander Classes="compact stretch-header"
-                                              HorizontalContentAlignment="Stretch"
-                                              Margin="2 2 2 10"
-                                              IsExpanded="True">
-                                       <Expander.Header>
-                                               <ci:IconText Text="当事件触发时"
-                                                            Glyph="&#xE84F;" />
-                                       </Expander.Header>
-                                       <action:TriggerSettingsControl Triggers="{Binding Triggers}"/>
-                                   </Expander>
-                                   <!--规则编辑-->
-                                    <Expander Grid.Row="1" Classes="compact stretch-header"
-                                              Margin="2 2 2 10" IsExpanded="True">
-                                        <Expander.Header>
-                                                <Grid ColumnDefinitions="Auto, *, Auto">
-                                                    <ci:IconText Text="并且满足规则集时"
-                                                                 Glyph="&#xF17E;"
-                                                                 Grid.Column="0"/>
-                                                    <ToggleSwitch IsChecked="{Binding IsConditionEnabled, Mode=TwoWay}"
-                                                                  Grid.Column="2"/>
-                                                </Grid>
-                                        </Expander.Header>
-                                        <Grid>
-                                            <TextBlock Text="工作流运行时不会考虑规则集。"
-                                   IsVisible="{Binding IsConditionEnabled, Converter={StaticResource InvertBooleanConverter}, Mode=OneWay}"
-                                   VerticalAlignment="Center"/>
-                                            <ci:RulesetControl Ruleset="{Binding Ruleset}"
-                                                ShowTitle="False"
-                                                IsVisible="{Binding IsConditionEnabled, Mode=OneWay}"/>
-                                        </Grid>
-                                    </Expander>
+                    <Grid Classes="animated-intro">
+                        <ci:Emptiable Content="{Binding ViewModel.SelectedAutomation}">
+                            <ci:Emptiable.ContentTemplate>
+                                <DataTemplate x:DataType="models:Workflow">
+                                    <Grid>
+                                        <ScrollViewer>
+                                            <Grid RowDefinitions="Auto,Auto,Auto,Auto" Classes="animated-intro">
+                                                <!-- v2: 触发器编辑 -->
+                                                <Expander Classes="compact stretch-header"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          Margin="2 2 2 10"
+                                                          IsExpanded="True">
+                                                   <Expander.Header>
+                                                           <ci:IconText Text="当事件触发时"
+                                                                        Glyph="&#xE84F;" />
+                                                   </Expander.Header>
+                                                   <action:TriggerSettingsControl Triggers="{Binding Triggers}"/>
+                                                </Expander>
+                                                
+                                                <!--规则编辑-->
+                                                <Expander Grid.Row="1" Classes="compact stretch-header"
+                                                          Margin="2 2 2 10" IsExpanded="True">
+                                                    <Expander.Header>
+                                                            <Grid ColumnDefinitions="Auto, *, Auto">
+                                                                <ci:IconText Text="并且满足规则集时"
+                                                                             Glyph="&#xF17E;"
+                                                                             Grid.Column="0"/>
+                                                                <ToggleSwitch IsChecked="{Binding IsConditionEnabled, Mode=TwoWay}"
+                                                                              Grid.Column="2"/>
+                                                            </Grid>
+                                                    </Expander.Header>
+                                                    <Grid>
+                                                        <TextBlock Text="工作流运行时不会考虑规则集。"
+                                                                   IsVisible="{Binding IsConditionEnabled, Converter={StaticResource InvertBooleanConverter}, Mode=OneWay}"
+                                                                   VerticalAlignment="Center"/>
+                                                        <ci:RulesetControl Ruleset="{Binding Ruleset}"
+                                                                           ShowTitle="False"
+                                                                           IsVisible="{Binding IsConditionEnabled, Mode=OneWay}"/>
+                                                    </Grid>
+                                                </Expander>
 
-                                   <!--行动编辑-->
-                                   <Expander Grid.Row="2" Classes="compact stretch-header"
-                                             Margin="2 2 2 10"
-                                             IsExpanded="True">
-                                       <Expander.Header>
-                                           <ci:IconText Text="触发行动" Glyph="&#xE01F;" />
-                                       </Expander.Header>
-                                       <action:ActionControl ActionSet="{Binding ActionSet}" />
-                                   </Expander>
+                                                <!--行动编辑-->
+                                                <Expander Grid.Row="2" Classes="compact stretch-header"
+                                                         Margin="2 2 2 10"
+                                                         IsExpanded="True">
+                                                   <Expander.Header>
+                                                       <ci:IconText Text="触发行动" Glyph="&#xE01F;" />
+                                                   </Expander.Header>
+                                                   <action:ActionControl ActionSet="{Binding ActionSet}" />
+                                                </Expander>
 
-                                    <!--v3: 恢复行动编辑-->
-                                    <!--<Expander Grid.Row="3" Classes="compact stretch-header"
+                                                <!--v3: 恢复行动编辑-->
+                                                <!--<Expander Grid.Row="3" Classes="compact stretch-header"
                                                           Margin="2"
                                                           IsExpanded="True">
                                                     <Expander.Header>
@@ -256,52 +257,49 @@
                                                     <TextBlock Text="Coming S∞n" />
                                                 </Expander>-->
 
-                                    <ci:IconText Grid.Row="3" Text="当规则集不再满足时，将自动恢复行动。"
-                                                 Glyph="&#xE01D;"
-                                                 IsVisible="{Binding ActionSet.IsRevertEnabled}"
-                                                 Margin="10 2 2 10" />
-                            </Grid>
-                        </ScrollViewer>
-
-                        </Grid>
-                    </DataTemplate>
-                </ci:Emptiable.ContentTemplate>
-                <ci:Emptiable.EmptyContent>
-                    <!-- 右：未选择自动化时，显示占位符 -->
-                    <ci:Empty Text="在左侧选择或添加一个自动化，然后在此处进行设置。" IconWidth="75" IconHeight="75">
-                        <ci:Empty.Icon>
-                            <fa:BitmapIconSource UriSource="avares://ClassIsland/Assets/HoYoStickers/光辉矢愿_瞄准.png"/>
-                        </ci:Empty.Icon>
-                    </ci:Empty>
-                </ci:Emptiable.EmptyContent>
-            </ci:Emptiable>
-
+                                                <ci:IconText Grid.Row="3" Text="当规则集不再满足时，将自动恢复行动。"
+                                                             Glyph="&#xE01D;"
+                                                             IsVisible="{Binding ActionSet.IsRevertEnabled}"
+                                                             Margin="10 2 2 10" />
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </Grid>
+                                </DataTemplate>
+                            </ci:Emptiable.ContentTemplate>
+                            
+                            <ci:Emptiable.EmptyContent>
+                                <!-- 右：未选择自动化时，显示占位符 -->
+                                <ci:Empty Text="在左侧选择或添加一个自动化，然后在此处进行设置。" IconWidth="75" IconHeight="75">
+                                    <ci:Empty.Icon>
+                                        <fa:BitmapIconSource UriSource="avares://ClassIsland/Assets/HoYoStickers/光辉矢愿_瞄准.png"/>
+                                    </ci:Empty.Icon>
+                                </ci:Empty>
+                            </ci:Emptiable.EmptyContent>
+                        </ci:Emptiable>
                     </Grid>
                 </controls1:ListDetailView.RightContent>
-                </controls1:ListDetailView>
+            </controls1:ListDetailView>
         </Grid>
 
         <!-- 自动化使用前须知 -->
-        <Border
-                IsVisible="{Binding ViewModel.SettingsService.Settings.IsAutomationWarningVisible}">
+        <Border IsVisible="{Binding ViewModel.SettingsService.Settings.IsAutomationWarningVisible}">
             <ScrollViewer>
-            <StackPanel VerticalAlignment="Center"
-            HorizontalAlignment="Center">
-                <Grid HorizontalAlignment="Center" ColumnDefinitions="75,Auto,75">
-                    <Image Grid.Column="0" Source="/Assets/AppLogo.png" />
-                    <ci:FluentIcon Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   Width="25" Height="25"
-                                   FontSize="25"
-                                   Margin="16 0"
-                                   Glyph="&#xE00C;" />
-                    <ci:FluentIcon Grid.Column="2" Glyph="&#xEEF1;"
-                                   VerticalAlignment="Stretch"
-                                   HorizontalAlignment="Stretch"
-                                   FontSize="75"
-                                   Height="75"
-                                   Width="75" />
-                </Grid>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Classes="animated-intro">
+                    <Grid HorizontalAlignment="Center" ColumnDefinitions="75,Auto,75">
+                        <Image Grid.Column="0" Source="/Assets/AppLogo.png" />
+                        <ci:FluentIcon Grid.Column="1"
+                                       VerticalAlignment="Center"
+                                       Width="25" Height="25"
+                                       FontSize="25"
+                                       Margin="16 0"
+                                       Glyph="&#xE00C;" />
+                        <ci:FluentIcon Grid.Column="2" Glyph="&#xEEF1;"
+                                       VerticalAlignment="Stretch"
+                                       HorizontalAlignment="Stretch"
+                                       FontSize="75"
+                                       Height="75"
+                                       Width="75" />
+                    </Grid>
                     <TextBlock Text="自动化"
                                HorizontalAlignment="Center"
                                TextAlignment="Center"
@@ -317,41 +315,39 @@
                         比如修改应用设置、打开应用，等等。
                     </TextBlock>
 
+                    <Button HorizontalAlignment="Center"
+                            Margin="0 16 0 0"
+                            Command="{x:Static ci:UriNavigationCommands.UriNavigationCommand}"
+                            CommandParameter="https://docs.classisland.tech"
+                            Theme="{StaticResource TransparentButton}">
+                        <ci:IconText Glyph="&#xEC2D;" Text="阅读自动化帮助" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
+                    </Button>
 
-            <Button HorizontalAlignment="Center"
-                    Margin="0 16 0 0"
-                    Command="{x:Static ci:UriNavigationCommands.UriNavigationCommand}"
-                    CommandParameter="https://docs.classisland.tech"
-                    Theme="{StaticResource TransparentButton}">
-                <ci:IconText Glyph="&#xEC2D;" Text="阅读自动化帮助" Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
-            </Button>
-
-            <Border Background="#22FF8800"
-                    Margin="0 16 0 0"
-                    Padding="8">
-                <StackPanel>
-                    <ci:IconText Glyph="&#xF430;"
-                                 Text="警告"
-                                 Margin="0 0 0 4"
-                                 HorizontalAlignment="Center" />
-                    <TextBlock TextAlignment="Center"
-                               HorizontalAlignment="Center"
-                               TextWrapping="Wrap">
-                        自动化允许自动修改 ClassIsland 的各项设置，并调用<LineBreak />
-                        外部程序，可能有一定安全风险。<LineBreak />
-                        不当的自动化编写可能对正常教学造成影响，请勿滥用。
-                    </TextBlock>
+                    <Border Background="#22FF8800"
+                            Margin="0 16 0 0"
+                            Padding="8">
+                        <StackPanel>
+                            <ci:IconText Glyph="&#xF430;"
+                                         Text="警告"
+                                         Margin="0 0 0 4"
+                                         HorizontalAlignment="Center" />
+                            <TextBlock TextAlignment="Center"
+                                       HorizontalAlignment="Center"
+                                       TextWrapping="Wrap">
+                                自动化允许自动修改 ClassIsland 的各项设置，并调用<LineBreak />
+                                外部程序，可能有一定安全风险。<LineBreak />
+                                不当的自动化编写可能对正常教学造成影响，请勿滥用。
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                    <Button HorizontalAlignment="Center"
+                            Margin="0 16 0 0"
+                            Classes="accent"
+                            Click="ButtonAgreeAutomationNotice_OnClick">
+                        <ci:IconText Glyph="&#xE424;" Text="同意并开始使用自动化"/>
+                    </Button>
                 </StackPanel>
-            </Border>
-            <Button HorizontalAlignment="Center"
-                    Margin="0 16 0 0"
-                    Classes="accent"
-                    Click="ButtonAgreeAutomationNotice_OnClick">
-                <ci:IconText Glyph="&#xE424;" Text="同意并开始使用自动化"/>
-            </Button>
-            </StackPanel>
             </ScrollViewer>
         </Border>
-
     </Grid>
 </ci:SettingsPageBase>
