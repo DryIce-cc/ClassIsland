@@ -15,25 +15,25 @@
         <Style Selector="local|RulesetControl[ShowTitle=True] Grid#GridRulesetControlRoot">
             <Setter Property="Margin" Value="16"/>
         </Style>
-    </UserControl.Styles>
-    <UserControl.Resources>
-        <converters:RuleLogicalModeToIntConverter x:Key="RuleLogicalModeToIntConverter" />
-        <!-- TODO: 实现规则集状态显示 -->
-        <Style Selector="Ellipse:rule-state-indicator" x:Key="RuleObjectStateIndicatorStyle">
+        <Style Selector="Ellipse.rule-state-indicator">
             <Setter Property="Fill" Value="DarkGray"/>
             <Setter Property="ToolTip.Tip" Value="未知"/>
 
-            <Style Selector="Ellipse[DataContext=2]">
-                    <Setter Property="Fill" Value="Green"/>
-                    <Setter Property="ToolTip.Tip" Value="已满足"/>
-            </Style>
-
-            <Style Selector="Ellipse[DataContext=1]">
+            <Style Selector="^[DataContext=1]">
                 <Setter Property="Fill" Value="IndianRed"/>
                 <Setter Property="ToolTip.Tip" Value="不满足"/>
             </Style>
+
+            <Style Selector="^[DataContext=2]">
+                <Setter Property="Fill" Value="Green"/>
+                <Setter Property="ToolTip.Tip" Value="已满足"/>
+            </Style>
         </Style>
+    </UserControl.Styles>
+    <UserControl.Resources>
+        <converters:RuleLogicalModeToIntConverter x:Key="RuleLogicalModeToIntConverter" />
     </UserControl.Resources>
+    
     <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:RulesetControl}}"
           MinWidth="450"
           x:Name="GridRulesetControlRoot" RowDefinitions="Auto,*">
@@ -57,10 +57,8 @@
                     <controls:IconText Glyph="&#xE00D;" Text="添加组"
                                        Foreground="{DynamicResource AccentTextFillColorPrimaryBrush}"/>
                 </Button>
-                <Ellipse Grid.Column="1" Width="8" Height="8"
-                         Margin="4 0 4 0"
-                         DataContext="{Binding Ruleset.State}"
-                         Classes="rule-state-indicator"/>
+                <Ellipse Width="8" Height="8" Margin="4 2 4 0"
+                         Classes="rule-state-indicator" DataContext="{Binding Ruleset.State}"/>
             </WrapPanel>
         </StackPanel>
         
@@ -77,8 +75,7 @@
                             Margin="-4">
                         <Grid RowDefinitions="Auto,*">
                             <ScrollViewer Grid.Row="0" PointerWheelChanged="ScrollViewerRulesetActions_OnPointerWheelChanged" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Disabled">
-                                <Grid ColumnDefinitions="Auto,*,Auto" HorizontalAlignment="Stretch" Margin="0 0 0 2"
-                                      MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=ScrollViewer}}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" HorizontalAlignment="Stretch" Margin="0 0 0 2">
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                                         <ComboBox Margin="0 0 8 0"
                                                   SelectedIndex="{Binding Mode, Converter={StaticResource RuleLogicalModeToIntConverter}}">
@@ -101,7 +98,7 @@
                                     
                                     <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                                         <Ellipse Width="8" Height="8"
-                                                 Margin="0 0 4 0"
+                                                 Margin="4 4 8 0"
                                                  DataContext="{Binding State}"
                                                  Classes="rule-state-indicator"/>
                                         <ToggleSwitch ToolTip.Tip="启用规则集"
@@ -133,7 +130,7 @@
                                 </Interaction.Behaviors>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="0 0 0 2" ColumnDefinitions="Auto,Auto,Auto,2*,3*">
+                                        <Grid Margin="0 0 0 2" ColumnDefinitions="Auto,Auto,Auto,Auto,*">
                                             <Button Grid.Column="0"
                                                     Theme="{StaticResource TransparentButton}"
                                                     Classes="circle"
@@ -143,8 +140,8 @@
                                                     Content="{controls:FluentIcon &#xE671;}">
                                             </Button>
                                             <Ellipse Grid.Column="1" Width="8" Height="8"
-                                                     Margin="0 0 4 0"
-                                                     DataContext="{Binding Ruleset.State}"
+                                                     Margin="4 0 8 0"
+                                                     DataContext="{Binding State}"
                                                      Classes="rule-state-indicator"/>
                                             <CheckBox Grid.Column="2"
                                                       Content="反转" IsChecked="{Binding IsReversed}" />
