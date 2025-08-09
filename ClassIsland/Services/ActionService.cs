@@ -20,33 +20,33 @@ public sealed class ActionService : IActionService
         ExactTimeService = exactTimeService;
         ProfileService = profileService;
         
-        // if (App.ApplicationCommand.Safe) return;
-        //
-        // LastActionRunTime = ExactTimeService.GetCurrentLocalDateTime();
-        // LessonsService.PostMainTimerTicked += LessonsServiceOnPostMainTimerTicked;
+        if (App.ApplicationCommand.Safe) return;
+        
+        LastActionRunTime = ExactTimeService.GetCurrentLocalDateTime();
+        LessonsService.PostMainTimerTicked += LessonsServiceOnPostMainTimerTicked;
     }
 
-    // private void LessonsServiceOnPostMainTimerTicked(object? sender, EventArgs e)
-    // {
-    //     if (!ProfileService.IsCurrentProfileTrusted) return;
-    //     
-    //     var currentTime = ExactTimeService.GetCurrentLocalDateTime();
-    //     var triggeredActions = LessonsService.CurrentClassPlan?.TimeLayout?.Layouts
-    //         .Where(x => x.TimeType == 3 && x.StartTime > LastActionRunTime.TimeOfDay &&
-    //                     x.StartTime <= currentTime.TimeOfDay)
-    //         .Select(x => x)
-    //         .ToList();
-    //     LastActionRunTime = currentTime;
-    //     if (triggeredActions == null) return;
-    //
-    //     foreach (var i in triggeredActions)
-    //     {
-    //         if (i.ActionSet == null) continue;
-    //         
-    //         Logger.LogInformation("触发时间点行动：{}/[{}]", LessonsService.CurrentClassPlan?.TimeLayout?.Name, i.StartTime);
-    //         InvokeActionSetAsync(i.ActionSet, false);
-    //     }
-    // }
+    private void LessonsServiceOnPostMainTimerTicked(object? sender, EventArgs e)
+    {
+        if (!ProfileService.IsCurrentProfileTrusted) return;
+        
+        var currentTime = ExactTimeService.GetCurrentLocalDateTime();
+        var triggeredActions = LessonsService.CurrentClassPlan?.TimeLayout?.Layouts
+            .Where(x => x.TimeType == 3 && x.StartTime > LastActionRunTime.TimeOfDay &&
+                        x.StartTime <= currentTime.TimeOfDay)
+            .Select(x => x)
+            .ToList();
+        LastActionRunTime = currentTime;
+        if (triggeredActions == null) return;
+    
+        foreach (var i in triggeredActions)
+        {
+            if (i.ActionSet == null) continue;
+            
+            Logger.LogInformation("触发时间点行动：{}/[{}]", LessonsService.CurrentClassPlan?.TimeLayout?.Name, i.StartTime);
+            InvokeActionSetAsync(i.ActionSet, false);
+        }
+    }
     
     public async Task InvokeActionSetAsync(ActionSet actionSet, bool isRevertable = true)
     {
